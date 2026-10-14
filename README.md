@@ -1,432 +1,345 @@
-# آزمایشگاه تحلیل داده با JavaScript و Node.js
+# JavaScript Sales Data Lab
 
-## ۱. معرفی پروژه
+A command-line sales data analysis application built with **Node.js and JavaScript**.
 
-این پروژه یک ابزار خط فرمان (CLI) برای تحلیل اطلاعات فروش است که با استفاده از **JavaScript و Node.js** پیاده‌سازی شده است.
+This project reads sales records from a CSV file, performs various data analysis operations, displays formatted reports in the terminal, and exports the results to a JSON file.
 
-برنامه اطلاعات فروش را از یک فایل CSV دریافت می‌کند و عملیات مختلفی مانند محاسبه درآمد، شناسایی محصولات پرفروش، تحلیل دسته‌بندی محصولات و بررسی فروش روزانه را انجام می‌دهد.
+The application provides an interactive command-line interface (CLI) using Commander.js and includes automated unit tests using Vitest.
 
-نتایج تحلیل به‌صورت جدول در ترمینال نمایش داده می‌شوند و گزارش نهایی نیز در قالب فایل JSON ذخیره می‌شود.
+## Features
 
-این پروژه با هدف تمرین کار با Node.js، مدیریت پکیج‌ها با npm، برنامه‌نویسی ماژولار، مدیریت خطا و تست‌نویسی خودکار طراحی شده است.
+- Load and parse sales data from CSV files.
+- Calculate revenue for individual sales.
+- Calculate total sales revenue.
+- Find the top sales based on revenue.
+- Analyze sales by product category.
+- Identify the best-selling product by total revenue.
+- Analyze daily sales performance.
+- Identify the best and worst sales days.
+- Calculate average daily revenue.
+- Include days without sales in daily calculations.
+- Search sales by product or category without case sensitivity.
+- Display formatted tables in the terminal.
+- Export analytical reports to JSON.
+- Execute operations using CLI commands.
+- Validate user inputs and handle common errors.
+- Display colored terminal messages.
+- Run automated tests using Vitest.
 
-## ۲. روش نصب و اجرای پروژه
+## Technologies
 
-### پیش‌نیازها
+- **JavaScript (ES Modules):** Core application logic.
+- **Node.js:** JavaScript runtime environment.
+- **npm:** Package and dependency management.
 
-برای اجرای پروژه باید Node.js و npm روی سیستم نصب باشند.
+### Dependencies
 
-### نصب وابستگی‌ها
-
-ابتدا وارد پوشه پروژه شوید:
-
-```bash
-cd js-data-lab
-```
-
-سپس دستور زیر را اجرا کنید:
-
-```bash
-npm install
-```
-
-این دستور تمام پکیج‌های موردنیاز پروژه را نصب می‌کند.
-
-### اجرای برنامه
-
-**نمایش راهنمای دستورات:**
-
-```bash
-npm start -- --help
-```
-
-**تولید گزارش کامل فروش:**
-
-```bash
-npm run report
-```
-
-یا:
-
-```bash
-node src/index.js report
-```
-
-**نمایش پنج فروش برتر:**
-
-```bash
-node src/index.js top --limit 5
-```
-
-**جست‌وجوی یک محصول:**
-
-```bash
-node src/index.js search --product Mouse
-```
-
-**نمایش آمار یک دسته محصول:**
-
-```bash
-node src/index.js category Electronics
-```
-
-**اجرای تست‌های خودکار:**
-
-```bash
-npm test
-```
-
-## ۳. معرفی پکیج‌های استفاده‌شده
-
-در این پروژه از پکیج‌های زیر استفاده شده است:
-
-| نام پکیج | کاربرد |
+| Package | Purpose |
 |---|---|
-| `csv-parse` | خواندن و تبدیل اطلاعات فایل CSV به داده‌های قابل‌استفاده در JavaScript |
-| `cli-table3` | نمایش اطلاعات تحلیل‌شده در قالب جدول‌های منظم در ترمینال |
-| `commander` | تعریف و مدیریت دستورات خط فرمان و گزینه‌های ورودی |
-| `vitest` | نوشتن و اجرای تست‌های خودکار برای بررسی صحت عملکرد توابع |
-| `chalk` | رنگی‌کردن عنوان‌ها، پیام‌های موفقیت و خطا در ترمینال |
-
-همچنین از ماژول‌های داخلی Node.js مانند `node:fs/promises` و `node:path` برای خواندن فایل‌ها، ایجاد پوشه و ذخیره گزارش استفاده شده است.
-
-## ۴. توضیح توابع اصلی JavaScript
-
-توابع اصلی پروژه در فایل‌های `analytics.js`، `dataLoader.js` و `report.js` پیاده‌سازی شده‌اند.
-
-### تابع loadSales
-
-```javascript
-loadSales(filePath)
-```
-
-این تابع فایل CSV را می‌خواند و اطلاعات آن را به آرایه‌ای از اشیای JavaScript تبدیل می‌کند.
-
-همچنین وضعیت‌هایی مانند فایل ناموجود، فایل خالی و داده‌های عددی نامعتبر را بررسی می‌کند.
-
-### تابع calculateRevenue
-
-```javascript
-calculateRevenue(sale)
-```
-
-درآمد یک رکورد فروش را با ضرب تعداد محصول در قیمت واحد محاسبه می‌کند.
-
-فرمول:
-
-```text
-Revenue = Quantity × Unit Price
-```
-
-### تابع calculateTotalRevenue
-
-```javascript
-calculateTotalRevenue(sales)
-```
-
-مجموع درآمد تمام رکوردهای فروش را محاسبه می‌کند.
-
-### تابع getTopSales
-
-```javascript
-getTopSales(sales, limit)
-```
-
-رکوردهای فروش را بر اساس درآمد به‌صورت نزولی مرتب می‌کند و تعداد مشخصی از فروش‌های برتر را برمی‌گرداند.
-
-این تابع آرایه اصلی اطلاعات را تغییر نمی‌دهد.
-
-### تابع analyzeCategories
-
-```javascript
-analyzeCategories(sales)
-```
-
-فروش‌ها را بر اساس دسته محصول گروه‌بندی می‌کند و برای هر دسته اطلاعات زیر را محاسبه می‌کند:
-
-- تعداد رکوردهای فروش
-- مجموع تعداد محصولات فروخته‌شده
-- مجموع درآمد
-
-برای گروه‌بندی اطلاعات از ساختار داده `Map` استفاده شده است.
-
-### تابع findBestProduct
-
-```javascript
-findBestProduct(sales)
-```
-
-مجموع درآمد هر محصول را محاسبه کرده و محصولی را که بیشترین درآمد را ایجاد کرده است، شناسایی می‌کند.
-
-### تابع analyzeDailySales
-
-```javascript
-analyzeDailySales(sales)
-```
-
-اطلاعات فروش را بر اساس تاریخ گروه‌بندی می‌کند.
-
-این تابع درآمد روزانه، بهترین روز فروش، ضعیف‌ترین روز فروش و میانگین درآمد روزانه را محاسبه می‌کند.
-
-روزهای بدون فروش در فاصله اولین و آخرین تاریخ موجود نیز با درآمد صفر در محاسبات در نظر گرفته می‌شوند.
-
-### تابع searchSales
-
-```javascript
-searchSales(sales, query)
-```
-
-این تابع امکان جست‌وجوی اطلاعات فروش بر اساس نام محصول یا دسته‌بندی را فراهم می‌کند.
-
-جست‌وجو به حروف بزرگ و کوچک حساس نیست و از متدهای `filter()`، `includes()`، `toLowerCase()` و `trim()` استفاده می‌کند.
-
-### تابع generateReport
-
-```javascript
-generateReport(sales)
-```
-
-نتایج توابع تحلیل داده را جمع‌آوری می‌کند و یک شیء شامل گزارش کامل فروش برمی‌گرداند.
-
-### تابع displayReport
-
-```javascript
-displayReport(report)
-```
-
-اطلاعات گزارش را با استفاده از پکیج `cli-table3` در قالب جدول در ترمینال نمایش می‌دهد.
-
-### تابع saveReport
-
-```javascript
-saveReport(report)
-```
-
-گزارش تولیدشده را با استفاده از `JSON.stringify()` به فرمت JSON تبدیل می‌کند و در مسیر زیر ذخیره می‌کند:
-
-```text
-output/report.json
-```
-
-در صورت نبودن پوشه `output`، این پوشه به‌صورت خودکار ایجاد می‌شود.
-
-## ۵. نمونه خروجی برنامه
-
-مجموعه داده پروژه شامل ۳۰ رکورد فروش در سه دسته محصولات است.
-
-پس از اجرای دستور:
-
-```bash
-node src/index.js report
-```
-
-خلاصه نتایج به شکل زیر خواهد بود:
-
-### گزارش کلی فروش
-
-```text
-========== SALES REPORT ==========
-
-Total Records: 30
-Total Revenue: 10920
-
-Best Product:
-Product: Laptop
-Quantity: 11
-Revenue: 5500
-```
-
-### تحلیل دسته‌بندی محصولات
-
-| دسته محصول | تعداد رکورد | تعداد محصول | درآمد کل |
-|---|---:|---:|---:|
-| Electronics | 11 | 20 | 7120 |
-| Accessories | 11 | 59 | 1480 |
-| Furniture | 8 | 22 | 2320 |
-
-### تحلیل فروش روزانه
-
-```text
-Best Sales Day: 2026-10-06
-Best Day Revenue: 1620
-
-Worst Sales Day: 2026-10-05
-Worst Day Revenue: 250
-
-Average Daily Revenue: 728
-```
-
-پس از تولید گزارش، پیام زیر نمایش داده می‌شود:
-
-```text
-Report saved successfully to output/report.json
-```
-
-فایل `report.json` شامل اطلاعات کامل تحلیل فروش، دسته‌بندی محصولات، فروش روزانه و فروش‌های برتر است.
-
-## ۶. نتیجه آزمون‌های خودکار
-
-برای بررسی صحت عملکرد برنامه از کتابخانه `Vitest` استفاده شده است.
-
-در مجموع **۱۴ تست خودکار** برای پروژه نوشته شده است.
-
-این تست‌ها موارد زیر را بررسی می‌کنند:
-
-- محاسبه صحیح درآمد هر فروش
-- محاسبه درآمد کل
-- مدیریت آرایه خالی
-- مرتب‌سازی صحیح فروش‌ها
-- تغییرنکردن آرایه اصلی
-- تحلیل دسته‌بندی محصولات
-- شناسایی محصول برتر
-- تحلیل فروش روزانه
-- جست‌وجوی بدون حساسیت به حروف بزرگ و کوچک
-- مدیریت جست‌وجوی ناموفق
-- خواندن صحیح فایل CSV
-- تشخیص فایل ناموجود
-- تشخیص فایل خالی
-- تشخیص مقادیر عددی نامعتبر
-
-برای اجرای تست‌ها از دستور زیر استفاده می‌شود:
-
-```bash
-npm test
-```
-
-نتیجه اجرای تست‌ها:
-
-```text
-Test Files  2 passed (2)
-Tests       14 passed (14)
-```
-
-تمام ۱۴ تست با موفقیت اجرا شده‌اند.
-
-## ۷. معرفی بسته جدید انتخاب‌شده
-
-### پکیج Chalk
-
-در بخش توسعه پروژه، پکیج `chalk` به‌عنوان یک بسته جدید از npm انتخاب و نصب شد.
-
-دستور نصب:
-
-```bash
-npm install chalk
-```
-
-### دلیل انتخاب
-
-از آنجا که برنامه در محیط ترمینال اجرا می‌شود، خوانایی خروجی‌ها اهمیت زیادی دارد.
-
-پکیج `chalk` امکان نمایش متن‌ها با رنگ‌های مختلف را فراهم می‌کند و باعث می‌شود بخش‌های مختلف گزارش به‌راحتی قابل‌تشخیص باشند.
-
-### قابلیت اضافه‌شده
-
-با استفاده از این پکیج:
-
-- عنوان اصلی گزارش با رنگ آبی نمایش داده می‌شود.
-- عنوان جدول دسته‌بندی‌ها زرد است.
-- عنوان جدول فروش روزانه فیروزه‌ای است.
-- پیام موفقیت ذخیره گزارش سبز است.
-- پیام‌های خطا با رنگ قرمز نمایش داده می‌شوند.
-
-نمونه استفاده:
-
-```javascript
-import chalk from "chalk";
-
-console.log(chalk.green("Success!"));
-console.log(chalk.red("Error!"));
-console.log(chalk.blue.bold("Sales Report"));
-```
-
-این قابلیت بدون تغییر منطق اصلی تحلیل داده به پروژه اضافه شده است.
-
-## ۸. پاسخ به پرسش‌های پایانی پروژه
-
-### سؤال ۱: چرا خواندن CSV را به کتابخانه آماده سپردیم، اما تحلیل داده‌ها را خودمان نوشتیم؟
-
-خواندن فایل CSV نیازمند مدیریت ساختار فایل، جداکننده‌ها و خطاهای احتمالی است؛ بنابراین از کتابخانه `csv-parse` استفاده کردیم تا این عملیات با دقت بیشتری انجام شود.
-
-اما تحلیل داده‌ها را خودمان پیاده‌سازی کردیم تا با مفاهیم JavaScript مانند آرایه‌ها، حلقه‌ها، توابع و ساختار داده `Map` تمرین کنیم و منطق تحلیل متناسب با نیازهای پروژه باشد.
-
-### سؤال ۲: تفاوت Map و Object در این پروژه چیست؟
-
-در این پروژه از `Map` برای گروه‌بندی و نگهداری اطلاعات فروش بر اساس محصول، دسته‌بندی و تاریخ استفاده کردیم.
-
-ساختار `Map` متدهای آماده‌ای مانند `set()`، `get()` و `has()` دارد و برای مدیریت داده‌های گروه‌بندی‌شده مناسب است.
-
-در مقابل، از `Object` برای نگهداری ویژگی‌های هر رکورد فروش و ساخت گزارش نهایی استفاده کردیم.
-
-### سؤال ۳: چرا بهتر است توابع تحلیل داده از کد مربوط به ورودی و خروجی جدا باشند؟
-
-جداکردن منطق تحلیل از ورودی و خروجی باعث افزایش خوانایی، قابلیت نگهداری و استفاده مجدد از کد می‌شود.
-
-در این پروژه توابع تحلیل در فایل `analytics.js` قرار دارند و مستقل از نحوه خواندن فایل یا نمایش نتایج عمل می‌کنند.
-
-به همین دلیل می‌توانیم این توابع را بدون نیاز به اجرای CLI به‌صورت مستقل آزمایش کنیم.
-
-### سؤال ۴: آزمون خودکار چه خطاهایی را می‌تواند پیدا کند؟
-
-آزمون‌های خودکار می‌توانند خطاهای محاسباتی، مرتب‌سازی نادرست، نتایج اشتباه جست‌وجو، تغییر ناخواسته داده‌های اصلی و مدیریت نادرست ورودی‌ها را شناسایی کنند.
-
-در این پروژه با استفاده از `Vitest` تعداد ۱۴ تست نوشتیم که مواردی مانند محاسبه درآمد، تحلیل دسته‌بندی‌ها، فروش روزانه، فایل ناموجود، فایل خالی و داده‌های عددی نامعتبر را بررسی می‌کنند.
-
-### سؤال ۵: اگر بخواهیم قالب خروجی را از جدول ترمینال به فایل Markdown تغییر دهیم، کدام بخش برنامه باید تغییر کند؟
-
-باید بخش نمایش و خروجی گزارش در فایل `report.js` تغییر کند.
-
-در حال حاضر تابع `displayReport()` با استفاده از کتابخانه `cli-table3` جدول‌ها را در ترمینال نمایش می‌دهد.
-
-برای تولید فایل Markdown می‌توانیم تابع جدیدی ایجاد کنیم که اطلاعات گزارش را به جدول‌های Markdown تبدیل کرده و با استفاده از `writeFile()` در یک فایل با پسوند `.md` ذخیره کند.
-
-در این حالت نیازی به تغییر توابع تحلیل موجود در `analytics.js` نیست.
-
-### سؤال ۶: کدام ویژگی JavaScript در این تمرین برای شما مفیدتر بود و چرا؟
-
-به نظر من ساختار داده `Map` یکی از مفیدترین ویژگی‌های JavaScript در این پروژه بود.
-
-زیرا با استفاده از آن توانستیم اطلاعات فروش را بر اساس محصول، دسته‌بندی و تاریخ گروه‌بندی کنیم و مجموع درآمد هر گروه را به‌سادگی محاسبه کنیم.
-
-همچنین استفاده از `Map` باعث شد کد تحلیل داده‌ها منظم‌تر و خواناتر باشد.
-
-
-## ۹. ساختار پروژه
+| csv-parse | Reads and parses CSV data. |
+| cli-table3 | Displays formatted tables in the terminal. |
+| commander | Provides command-line commands and options. |
+| chalk | Adds colors to terminal output. |
+| vitest | Runs automated unit tests. |
+
+## Project Structure
 
 ```text
 js-data-lab/
-│
 ├── data/
 │   └── sales.csv
-│
 ├── output/
 │   └── report.json
-│
 ├── src/
 │   ├── analytics.js
 │   ├── dataLoader.js
 │   ├── index.js
 │   └── report.js
-│
 ├── tests/
 │   ├── analytics.test.js
 │   ├── dataLoader.test.js
 │   └── errorCheck.js
-│
 ├── .gitignore
 ├── package.json
 ├── package-lock.json
 └── README.md
 ```
 
-## ۱۰. نتیجه‌گیری
+## Installation
 
-در این پروژه یک ابزار تحلیل داده مبتنی بر JavaScript و Node.js طراحی و پیاده‌سازی شد.
+### 1. Clone the repository
 
-برنامه قادر است اطلاعات فروش را از فایل CSV دریافت کند، تحلیل‌های مختلف انجام دهد، نتایج را در ترمینال نمایش دهد و گزارش نهایی را در قالب JSON ذخیره کند.
+```bash
+git clone <repository-url>
+cd js-data-lab
+```
 
-همچنین با استفاده از Commander یک رابط خط فرمان ایجاد شد و با Vitest صحت عملکرد توابع مورد بررسی قرار گرفت.
+Replace `<repository-url>` with the actual GitHub repository URL.
 
-در نهایت، پکیج Chalk برای بهبود ظاهر و خوانایی خروجی‌های برنامه به آن اضافه شد.
+### 2. Install dependencies
 
-این پروژه تجربه‌ای عملی در زمینه کار با Node.js، مدیریت پکیج‌های npm، پردازش داده، برنامه‌نویسی ماژولار، مدیریت خطا و تست‌نویسی خودکار فراهم کرد.
+```bash
+npm install
+```
+
+### 3. Check available commands
+
+```bash
+npm start -- --help
+```
+
+## Usage
+
+### Generate a Complete Sales Report
+
+```bash
+node src/index.js report
+```
+
+This command generates a complete analytical report, displays formatted tables in the terminal, and saves the results to:
+
+```text
+output/report.json
+```
+
+Alternatively:
+
+```bash
+npm run report
+```
+
+### Display Top Sales
+
+```bash
+node src/index.js top --limit 5
+```
+
+This command displays the five sales records with the highest revenue.
+
+To display three records:
+
+```bash
+node src/index.js top --limit 3
+```
+
+### Search Sales by Product
+
+```bash
+node src/index.js search --product Mouse
+```
+
+This command searches for sales records related to the specified product.
+
+The search is case-insensitive.
+
+### Analyze a Specific Category
+
+```bash
+node src/index.js category Electronics
+```
+
+This command displays the sales summary for the selected category, including:
+
+- Number of sales records
+- Total quantity sold
+- Total revenue
+
+### Display Help
+
+```bash
+node src/index.js --help
+```
+
+## Dataset
+
+The application uses a CSV dataset containing 30 sales records.
+
+Each record contains the following fields:
+
+| Field | Description |
+|---|---|
+| id | Unique sale identifier |
+| product | Product name |
+| category | Product category |
+| quantity | Number of units sold |
+| unitPrice | Price per unit |
+| date | Date of sale |
+
+Example:
+
+```csv
+id,product,category,quantity,unitPrice,date
+1,Laptop,Electronics,2,500,2026-10-01
+2,Mouse,Accessories,5,20,2026-10-01
+3,Keyboard,Accessories,3,35,2026-10-02
+```
+
+## Data Analysis
+
+### Revenue Calculation
+
+Revenue for each sale is calculated using:
+
+```text
+Revenue = Quantity × Unit Price
+```
+
+Total revenue is calculated by summing the revenue of all sales records.
+
+### Category Analysis
+
+Sales are grouped by category using JavaScript's `Map` object.
+
+For each category, the application calculates:
+
+- Sales record count
+- Total quantity sold
+- Total revenue
+
+### Best Product
+
+The application groups sales by product and calculates the total revenue generated by each product.
+
+The product with the highest total revenue is selected as the best product.
+
+### Daily Analysis
+
+Sales are grouped by date to calculate daily revenue.
+
+The application identifies the highest-revenue day, the lowest-revenue day, and the average daily revenue.
+
+Days without sales between the first and last recorded dates are included with zero revenue.
+
+### Search
+
+The search functionality uses JavaScript methods such as:
+
+- `filter()`
+- `includes()`
+- `toLowerCase()`
+- `trim()`
+
+These methods allow case-insensitive searching without modifying the original dataset.
+
+## Sample Results
+
+Based on the provided dataset:
+
+| Metric | Result |
+|---|---|
+| Total Sales Records | 30 |
+| Total Revenue | 10,920 |
+| Best Product | Laptop |
+| Best Product Revenue | 5,500 |
+| Best Sales Day | 2026-10-06 |
+| Best Day Revenue | 1,620 |
+| Worst Sales Day | 2026-10-05 |
+| Worst Day Revenue | 250 |
+| Average Daily Revenue | 728 |
+
+### Category Summary
+
+| Category | Sales Count | Quantity | Revenue |
+|---|---:|---:|---:|
+| Electronics | 11 | 20 | 7,120 |
+| Accessories | 11 | 59 | 1,480 |
+| Furniture | 8 | 22 | 2,320 |
+
+## Error Handling
+
+The application includes error handling for:
+
+- Missing CSV files.
+- Empty CSV files.
+- Invalid CSV formats.
+- Invalid numeric values.
+- Invalid CLI options.
+- Non-positive or non-integer values for the `--limit` option.
+
+For example:
+
+```bash
+node src/index.js top --limit abc
+```
+
+Output:
+
+```text
+Error: Limit must be a positive integer.
+```
+
+## Testing
+
+Automated tests are implemented using Vitest.
+
+To run the tests:
+
+```bash
+npm test
+```
+
+The project includes 14 automated tests covering revenue calculations, sorting, category analysis, best-product identification, daily analysis, searching, CSV loading, and error handling.
+
+Expected result:
+
+```text
+Test Files  2 passed (2)
+Tests       14 passed (14)
+```
+
+## Additional npm Package: Chalk
+
+The **Chalk** package was added to improve the readability of the command-line interface.
+
+It provides colored output for report headings, success messages, and error messages.
+
+For example:
+
+- Blue: Main report heading.
+- Yellow: Category summary heading.
+- Cyan: Daily sales heading.
+- Green: Successful report export.
+- Red: Error messages.
+
+Chalk was selected because it is lightweight, easy to integrate, and useful for improving the user experience of terminal-based applications.
+
+## Design Decisions
+
+### Modular Architecture
+
+The application separates responsibilities into different modules:
+
+- `dataLoader.js` handles CSV reading and validation.
+- `analytics.js` contains data analysis functions.
+- `report.js` generates, displays, and exports reports.
+- `index.js` manages CLI commands.
+
+This design improves readability, maintainability, and testability.
+
+### Reusable Functions
+
+Analytical functions are implemented independently and reused in report generation and CLI commands.
+
+This avoids unnecessary code duplication.
+
+### Non-Mutating Operations
+
+Functions such as `getTopSales()` and `searchSales()` avoid modifying the original sales dataset.
+
+### Asynchronous File Operations
+
+The application uses `node:fs/promises` with `async/await` for reading and writing files.
+
+This provides a clean approach to asynchronous file operations.
+
+### Automated Testing
+
+Vitest is used to verify analytical calculations and error-handling behavior.
+
+Automated tests help detect problems when the application is modified.
+
+## Conclusion
+
+JavaScript Sales Data Lab demonstrates practical use of Node.js, npm packages, CSV processing, JavaScript data structures, modular programming, command-line interfaces, JSON export, error handling, and automated testing.
+
+The project provides a foundation for building more advanced data analysis tools using JavaScript.
