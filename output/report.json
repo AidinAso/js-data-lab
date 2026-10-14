@@ -1,0 +1,142 @@
+{
+  "totalRecords": 30,
+  "totalRevenue": 10920,
+  "bestProduct": {
+    "product": "Laptop",
+    "totalQuantity": 11,
+    "totalRevenue": 5500
+  },
+  "categorySummary": [
+    {
+      "category": "Electronics",
+      "salesCount": 11,
+      "totalQuantity": 20,
+      "totalRevenue": 7120
+    },
+    {
+      "category": "Accessories",
+      "salesCount": 11,
+      "totalQuantity": 59,
+      "totalRevenue": 1480
+    },
+    {
+      "category": "Furniture",
+      "salesCount": 8,
+      "totalQuantity": 22,
+      "totalRevenue": 2320
+    }
+  ],
+  "dailySummary": [
+    {
+      "date": "2026-10-01",
+      "totalRevenue": 1100
+    },
+    {
+      "date": "2026-10-02",
+      "totalRevenue": 465
+    },
+    {
+      "date": "2026-10-03",
+      "totalRevenue": 580
+    },
+    {
+      "date": "2026-10-04",
+      "totalRevenue": 540
+    },
+    {
+      "date": "2026-10-05",
+      "totalRevenue": 250
+    },
+    {
+      "date": "2026-10-06",
+      "totalRevenue": 1620
+    },
+    {
+      "date": "2026-10-07",
+      "totalRevenue": 470
+    },
+    {
+      "date": "2026-10-08",
+      "totalRevenue": 715
+    },
+    {
+      "date": "2026-10-09",
+      "totalRevenue": 1160
+    },
+    {
+      "date": "2026-10-10",
+      "totalRevenue": 610
+    },
+    {
+      "date": "2026-10-11",
+      "totalRevenue": 500
+    },
+    {
+      "date": "2026-10-12",
+      "totalRevenue": 640
+    },
+    {
+      "date": "2026-10-13",
+      "totalRevenue": 700
+    },
+    {
+      "date": "2026-10-14",
+      "totalRevenue": 390
+    },
+    {
+      "date": "2026-10-15",
+      "totalRevenue": 1180
+    }
+  ],
+  "bestDay": {
+    "date": "2026-10-06",
+    "totalRevenue": 1620
+  },
+  "worstDay": {
+    "date": "2026-10-05",
+    "totalRevenue": 250
+  },
+  "averageDailyRevenue": 728,
+  "topSales": [
+    {
+      "id": "11",
+      "product": "Laptop",
+      "category": "Electronics",
+      "quantity": "3",
+      "unitPrice": "500",
+      "date": "2026-10-06"
+    },
+    {
+      "id": "1",
+      "product": "Laptop",
+      "category": "Electronics",
+      "quantity": "2",
+      "unitPrice": "500",
+      "date": "2026-10-01"
+    },
+    {
+      "id": "18",
+      "product": "Laptop",
+      "category": "Electronics",
+      "quantity": "2",
+      "unitPrice": "500",
+      "date": "2026-10-09"
+    },
+    {
+      "id": "29",
+      "product": "Laptop",
+      "category": "Electronics",
+      "quantity": "2",
+      "unitPrice": "500",
+      "date": "2026-10-15"
+    },
+    {
+      "id": "15",
+      "product": "Monitor",
+      "category": "Electronics",
+      "quantity": "3",
+      "unitPrice": "180",
+      "date": "2026-10-08"
+    }
+  ]
+}
